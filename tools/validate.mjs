@@ -32,8 +32,12 @@ async function walk(dir, rel = '') {
   return rows.sort();
 }
 function trackedFiles() {
-  const out = execFileSync('git', ['ls-files', '-z'], {cwd: ROOT, encoding: 'utf8'});
-  return out.split('\0').filter(Boolean);
+  const out = execFileSync('git', ['ls-files', '-s', '-z'], {cwd: ROOT, encoding: 'utf8'});
+  return out.split('\0').filter(Boolean).map(record => {
+    const match = record.match(/^([0-9]{6}) [0-9a-f]{40} [0-3]\t(.+)$/s);
+    if (!match) fail('TRACKED_INDEX_RECORD_INVALID');
+    return {mode: match[1], file: match[2]};
+  });
 }
 function scanSecrets() {
   const forbidden = [
@@ -42,13 +46,20 @@ function scanSecrets() {
     /gh[pousr]_[A-Za-z0-9]{20,}/,
     /AKIA[0-9A-Z]{16}/,
   ];
-  for (const file of trackedFiles()) {
+  for (const {mode, file} of trackedFiles()) {
+    if (mode === '120000') fail('TRACKED_SYMLINK_FORBIDDEN', file);
+    if (mode !== '100644' && mode !== '100755') fail('TRACKED_MODE_FORBIDDEN', file + ':' + mode);
     const abs = path.join(ROOT, file);
-    const stat = fs.lstatSync(abs);
-    if (stat.isSymbolicLink()) fail('TRACKED_SYMLINK_FORBIDDEN', file);
-    if (stat.size > 8 * 1024 * 1024) continue;
-    const text = fs.readFileSync(abs, 'utf8');
-    if (forbidden.some(re => re.test(text))) fail('POSSIBLE_SECRET_MATERIAL', file);
+    const fd = fs.openSync(abs, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW);
+    try {
+      const stat = fs.fstatSync(fd);
+      if (!stat.isFile()) fail('TRACKED_NON_FILE_FORBIDDEN', file);
+      if (stat.size > 8 * 1024 * 1024) continue;
+      const text = fs.readFileSync(fd, 'utf8');
+      if (forbidden.some(re => re.test(text))) fail('POSSIBLE_SECRET_MATERIAL', file);
+    } finally {
+      fs.closeSync(fd);
+    }
   }
 }
 async function main() {
