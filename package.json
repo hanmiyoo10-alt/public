@@ -1,0 +1,14 @@
+{
+  "name": "nyang-public-capability-plane",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Derived public capability plane for bounded public-safe artifacts.",
+  "scripts": {
+    "test": "node tools/validate.mjs",
+    "validate": "node tools/validate.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "projectionVersion": "1.0.0",
+  "sourceRepository": "hanmiyoo10-alt/-",
+  "authority": "DERIVED_PUBLICATION_ONLY",
+  "entries": [
+    {
+      "ref": "main",
+      "source": "local/termux/00-update-local-stack",
+      "target": "artifacts/termux/00-update-local-stack"
+    },
+    {
+      "ref": "main",
+      "source": "local/termux/10-start-local-stack",
+      "target": "artifacts/termux/10-start-local-stack"
+    },
+    {
+      "ref": "release-simcore",
+      "source": "plugins/simcore/latest.js",
+      "target": "artifacts/simcore/latest.js"
+    },
+    {
+      "ref": "release-simcore",
+      "source": "plugins/simcore/install.js",
+      "target": "artifacts/simcore/install.js"
+    },
+    {
+      "ref": "release-usage-dashboard",
+      "source": "plugins/usage-dashboard/latest.js",
+      "target": "artifacts/usage-dashboard/latest.js"
+    },
+    {
+      "ref": "release-usage-dashboard",
+      "source": "plugins/usage-dashboard/runtime/product-manifest.json",
+      "target": "artifacts/usage-dashboard/runtime/product-manifest.json"
+    },
+    {
+      "ref": "release-usage-dashboard",
+      "source": "plugins/usage-dashboard/runtime/bridge-engine.mjs",
+      "target": "artifacts/usage-dashboard/runtime/bridge-engine.mjs"
+    },
+    {
+      "ref": "release-usage-dashboard",
+      "source": "plugins/usage-dashboard/runtime/bridge-manager.cjs",
+      "target": "artifacts/usage-dashboard/runtime/bridge-manager.cjs"
+    },
+    {
+      "ref": "release-usage-dashboard",
+      "source": "plugins/usage-dashboard/runtime/bootstrap-bridge-manager.sh",
+      "target": "artifacts/usage-dashboard/runtime/bootstrap-bridge-manager.sh"
+    }
+  ]
+}

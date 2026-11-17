@@ -1,0 +1,27 @@
+name: Projection Artifact Attestation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'artifacts/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate projection
+        run: node tools/validate.mjs
+      - name: Build bounded projection bundle
+        run: tar -czf projection-artifacts.tar.gz artifacts
+      - name: Attest projection bundle
+        uses: actions/attest@v4
+        with:
+          subject-path: projection-artifacts.tar.gz

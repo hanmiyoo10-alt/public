@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "projectionVersion": "1.0.0",
+  "authority": "DERIVED_PUBLICATION_ONLY",
+  "sourceRepository": "hanmiyoo10-alt/-",
+  "sourceRefs": {
+    "main": "b971cd5b8c579c69600b1496c8a215500f5e6cba",
+    "release-simcore": "678a4e1ae06bccbe87e1865eaf56d790bd87acc0",
+    "release-usage-dashboard": "68093b8c4b4b8233f5fc455329a31dd6d330dde8"
+  },
+  "files": [
+    {
+      "sourceRef": "main",
+      "sourceCommit": "b971cd5b8c579c69600b1496c8a215500f5e6cba",
+      "sourcePath": "local/termux/00-update-local-stack",
+      "publicPath": "artifacts/termux/00-update-local-stack",
+      "mode": "100644",
+      "size": 5245,
+      "sha256": "cea6458f7149ddc74e224bfe535059c6a05a91c84bd64661d33b2c0cc96fdffd"
+    },
+    {
+      "sourceRef": "main",
+      "sourceCommit": "b971cd5b8c579c69600b1496c8a215500f5e6cba",
+      "sourcePath": "local/termux/10-start-local-stack",
+      "publicPath": "artifacts/termux/10-start-local-stack",
+      "mode": "100755",
+      "size": 5310,
+      "sha256": "80e70007d4dc9ed0611adcf79eee27e639c9711139db33780ccb83fb42dea9c0"
+    },
+    {
+      "sourceRef": "release-simcore",
+      "sourceCommit": "678a4e1ae06bccbe87e1865eaf56d790bd87acc0",
+      "sourcePath": "plugins/simcore/latest.js",
+      "publicPath": "artifacts/simcore/latest.js",
+      "mode": "100644",
+      "size": 592700,
+      "sha256": "ebba88c815c0bcae93a93fd58d3d630d6d941e3329e1aca6f9c3b16b137cebc2"
+    },
+    {
+      "sourceRef": "release-simcore",
+      "sourceCommit": "678a4e1ae06bccbe87e1865eaf56d790bd87acc0",
+      "sourcePath": "plugins/simcore/install.js",
+      "publicPath": "artifacts/simcore/install.js",
+      "mode": "100644",
+      "size": 592700,
+      "sha256": "ebba88c815c0bcae93a93fd58d3d630d6d941e3329e1aca6f9c3b16b137cebc2"
+    },
+    {
+      "sourceRef": "release-usage-dashboard",
+      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourcePath": "plugins/usage-dashboard/latest.js",
+      "publicPath": "artifacts/usage-dashboard/latest.js",
+      "mode": "100644",
+      "size": 388281,
+      "sha256": "dc4f24caf6608e35ba2694652c207a81f05c2f0de83e7203287c8a2f1717f9fe"
+    },
+    {
+      "sourceRef": "release-usage-dashboard",
+      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourcePath": "plugins/usage-dashboard/runtime/product-manifest.json",
+      "publicPath": "artifacts/usage-dashboard/runtime/product-manifest.json",
+      "mode": "100644",
+      "size": 1811,
+      "sha256": "05bb5bd5321dba9679eebea3de5a17d083358ea04697dab009eff0c944e40411"
+    },
+    {
+      "sourceRef": "release-usage-dashboard",
+      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourcePath": "plugins/usage-dashboard/runtime/bridge-engine.mjs",
+      "publicPath": "artifacts/usage-dashboard/runtime/bridge-engine.mjs",
+      "mode": "100644",
+      "size": 192590,
+      "sha256": "85530cd53bfeb7f5b410b3cb33e27528cf55be6279211487eec2bdcc8eec3179"
+    },
+    {
+      "sourceRef": "release-usage-dashboard",
+      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourcePath": "plugins/usage-dashboard/runtime/bridge-manager.cjs",
+      "publicPath": "artifacts/usage-dashboard/runtime/bridge-manager.cjs",
+      "mode": "100644",
+      "size": 43137,
+      "sha256": "f90efb03562e126168e9d8db4d490beb3b60f64f0ee3811665f6e394062f0d6b"
+    },
+    {
+      "sourceRef": "release-usage-dashboard",
+      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourcePath": "plugins/usage-dashboard/runtime/bootstrap-bridge-manager.sh",
+      "publicPath": "artifacts/usage-dashboard/runtime/bootstrap-bridge-manager.sh",
+      "mode": "100755",
+      "size": 4755,
+      "sha256": "a1fed6f483c1738a21b08b56245ad011aca635334927dc351bdc81c75baea134"
+    }
+  ]
+}

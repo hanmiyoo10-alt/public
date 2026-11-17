@@ -1,0 +1,74 @@
+name: Public Projection Sync
+
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: public-projection-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public facade
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Configure canonical read-only SSH
+        shell: bash
+        env:
+          CANONICAL_PROJECTION_SSH_KEY: ${{ secrets.CANONICAL_PROJECTION_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$CANONICAL_PROJECTION_SSH_KEY"
+          install -d -m 700 "$HOME/.ssh"
+          umask 077
+          printf '%s\n' "$CANONICAL_PROJECTION_SSH_KEY" > "$HOME/.ssh/canonical_projection"
+          curl -fsSL https://api.github.com/meta             | jq -r '.ssh_keys[] | "github.com " + .'             > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+      - name: Fetch bounded canonical refs
+        shell: bash
+        env:
+          GIT_SSH_COMMAND: ssh -i ~/.ssh/canonical_projection -o IdentitiesOnly=yes -o UserKnownHostsFile=~/.ssh/known_hosts -o StrictHostKeyChecking=yes
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/canonical"
+          git init "$RUNNER_TEMP/canonical"
+          git -C "$RUNNER_TEMP/canonical" remote add origin git@github.com:hanmiyoo10-alt/-.git
+          git -C "$RUNNER_TEMP/canonical" fetch             --no-tags --filter=blob:none --depth=1 origin             '+refs/heads/main:refs/remotes/origin/main'             '+refs/heads/release-simcore:refs/remotes/origin/release-simcore'             '+refs/heads/release-usage-dashboard:refs/remotes/origin/release-usage-dashboard'
+
+      - name: Materialize exact allowlist projection
+        shell: bash
+        env:
+          GIT_SSH_COMMAND: ssh -i ~/.ssh/canonical_projection -o IdentitiesOnly=yes -o UserKnownHostsFile=~/.ssh/known_hosts -o StrictHostKeyChecking=yes
+        run: |
+          set -euo pipefail
+          node tools/project.mjs             --canonical-dir "$RUNNER_TEMP/canonical"             --repo-dir "$GITHUB_WORKSPACE"
+          node tools/validate.mjs
+
+      - name: Commit generated projection when changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -A artifacts
+          if git diff --cached --quiet; then
+            echo "PROJECTION_NOOP"
+            exit 0
+          fi
+          git config user.name "Public Projection Bot"
+          git config user.email "hanmiyoo10-alt@users.noreply.github.com"
+          git commit -m "projection: sync public-safe canonical artifacts"
+          git push origin HEAD:main
+
+      - name: Remove canonical read key
+        if: always()
+        shell: bash
+        run: rm -f "$HOME/.ssh/canonical_projection"
