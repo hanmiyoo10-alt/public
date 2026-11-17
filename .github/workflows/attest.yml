@@ -16,7 +16,7 @@ jobs:
   attest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Validate projection
         run: node tools/validate.mjs
       - name: Build bounded projection bundle
