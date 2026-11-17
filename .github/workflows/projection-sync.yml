@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: public-projection-sync
@@ -55,18 +56,39 @@ jobs:
           node tools/validate.mjs
 
       - name: Commit generated projection when changed
+        id: publish
         shell: bash
         run: |
           set -euo pipefail
           git add -A artifacts
           if git diff --cached --quiet; then
             echo "PROJECTION_NOOP"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "Public Projection Bot"
           git config user.email "hanmiyoo10-alt@users.noreply.github.com"
           git commit -m "projection: sync public-safe canonical artifacts"
+          PUBLISHED_SHA="$(git rev-parse HEAD)"
           git push origin HEAD:main
+          REMOTE_SHA="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
+          test "$REMOTE_SHA" = "$PUBLISHED_SHA"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "published_sha=$PUBLISHED_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Wake CodeQL on changed projection
+        if: steps.publish.outputs.changed == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          OBSERVED_SHA="$(gh api "repos/${GITHUB_REPOSITORY}/branches/main" --jq .commit.sha)"
+          test "$OBSERVED_SHA" = "${{ steps.publish.outputs.published_sha }}"
+          gh api --method POST \
+            "repos/${GITHUB_REPOSITORY}/actions/workflows/codeql.yml/dispatches" \
+            -f ref=main
+          echo "CODEQL_WAKE_DISPATCHED:$OBSERVED_SHA"
 
       - name: Remove canonical read key
         if: always()
