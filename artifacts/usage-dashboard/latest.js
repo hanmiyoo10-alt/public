@@ -1,24 +1,24 @@
 //@name local_usage_dashboard_modular
 //@display-name Local Usage Dashboard
-//@version 3.0.0-alpha.5.111
+//@version 3.0.0-alpha.5.112
 //@api 3.0
 //@update-url https://update.myang.link/usage-dashboard/latest.js
 
 (async () => {
   'use strict';
 
-  const VERSION = '3.0.0-alpha.5.111';
+  const VERSION = '3.0.0-alpha.5.112';
   const RELEASE_NOTES = Object.freeze({
-    title: "Public Delivery Final Cutover",
+    title: "CodeQL Local Runtime Hardening",
     highlights: Object.freeze([
-    "Removes the last canonical raw-GitHub Usage Dashboard production locator after the accepted 5.110 Manager bridge.",
-    "Keeps the plugin updater, runtime manifest, Engine, Manager, and bootstrap delivery fully on update.myang.link.",
-    "Preserves Engine 1.6.43 and Manager 1.3.7 semantic versions while removing migration-only legacy Manager fallback bytes.",
+    "Hardens Engine logging so attacker-influenced diagnostics cannot forge multiline log records.",
+    "Removes Manager stale-lock pathname reclamation and fails closed to the existing non-fatal CLI fallback.",
+    "Reads the legacy PID file through one no-follow descriptor so ownership checks and content reads share one file identity.",
     ]),
     diagnosticHints: Object.freeze([
-    "Verify Product 5.111 · Engine 1.6.43 · Manager 1.3.7 and READY/Health ok.",
-    "Verify the normal 5.110 → 5.111 update is discovered through https://update.myang.link/usage-dashboard/latest.js.",
-    "Verify zero active canonical raw-GitHub locator remains across the five production artifacts.",
+    "Verify Product 5.112 · Engine 1.6.44 · Manager 1.3.8 and READY/Health ok.",
+    "Verify managed CLI remains ready, or the existing safe fallback remains available after a lock-contention path.",
+    "Verify the public projection refreshes and CodeQL #4/#5/#9 no longer reproduce on the repaired runtime bytes.",
     ]),
   });
   const UPDATE_URL = 'https://update.myang.link/usage-dashboard/latest.js';
@@ -39,8 +39,8 @@
   const RESUME_DIAGNOSTIC_WINDOW_MS = 10000;
   const RESUME_MAIN_THREAD_PROBE_MS = 80;
   const DEFAULT_BRIDGE = 'http://127.0.0.1:39117';
-  const REQUIRED_BRIDGE_VERSION = '1.6.43';
-  const REQUIRED_BRIDGE_MANAGER_VERSION = '1.3.7';
+  const REQUIRED_BRIDGE_VERSION = '1.6.44';
+  const REQUIRED_BRIDGE_MANAGER_VERSION = '1.3.8';
   const SNAPSHOT_SCHEMA_VERSION = 1;
   const RECENT_REQUEST_SCHEMA_VERSION = 1;
   const PRODUCT_RUNTIME_SCHEMA_VERSION = 1;

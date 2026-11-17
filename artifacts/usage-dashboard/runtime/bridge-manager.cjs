@@ -9,8 +9,8 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const {execFileSync, spawn} = require('node:child_process');
 
-const MANAGER_VERSION = '1.3.7';
-const PRODUCT_VERSION = '3.0.0-alpha.5.111';
+const MANAGER_VERSION = '1.3.8';
+const PRODUCT_VERSION = '3.0.0-alpha.5.112';
 const PROTOCOL = 'bridge-manager-v1';
 const HOST = '127.0.0.1';
 const PORT = Number(process.env.LUD_MANAGER_PORT || 39119);
@@ -28,8 +28,8 @@ const TERMUX_EXEC_LD_PRELOAD = path.join(PREFIX, 'lib', 'libtermux-exec-ld-prelo
 const ENGINE_DESCRIPTOR = path.join(RUNTIME_ROOT, 'engine-adopted.json');
 const BUNDLED_ENGINE_FILE = path.join(RUNTIME_ROOT, 'bridge-engine.mjs');
 const BUNDLED_ENGINE_URL = `${RELEASE_PREFIX}bridge-engine.mjs`;
-const BUNDLED_ENGINE_VERSION = '1.6.43';
-const BUNDLED_ENGINE_SHA256 = '85530cd53bfeb7f5b410b3cb33e27528cf55be6279211487eec2bdcc8eec3179';
+const BUNDLED_ENGINE_VERSION = '1.6.44';
+const BUNDLED_ENGINE_SHA256 = 'eab00b19584b4028ece9c64c98b37561b897a2ff353bfbc3f4e6815442c30b36';
 const MANAGED_CLI_PACKAGE = '@llmgateway/cli';
 const MANAGED_CLI_VERSION = '1.10.0';
 const MANAGED_MODEL_CATALOG_PACKAGE = '@llmgateway/models';
@@ -173,11 +173,7 @@ function acquireManagedCliLock() {
   try { return fs.openSync(MANAGED_CLI_LOCK, 'wx', 0o600); }
   catch (error) {
     if (error?.code !== 'EEXIST') throw error;
-    try {
-      if (Date.now() - fs.statSync(MANAGED_CLI_LOCK).mtimeMs > MANAGED_CLI_INSTALL_TIMEOUT_MS * 2) fs.unlinkSync(MANAGED_CLI_LOCK);
-      else return null;
-    } catch (_) { return null; }
-    return fs.openSync(MANAGED_CLI_LOCK, 'wx', 0o600);
+    return null;
   }
 }
 async function provisionManagedCli() {
@@ -397,12 +393,20 @@ function processMatchesSpec(pid, spec) {
 }
 function canonicalPidFileCandidate() {
   let raw = '';
+  let fd = null;
   try {
-    const stat = fs.statSync(LEGACY_ENGINE_PID_FILE);
+    fd = fs.openSync(LEGACY_ENGINE_PID_FILE, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0));
+    const stat = fs.fstatSync(fd);
     if (!stat.isFile()) return {safe:false,reason:'pidfile-not-file',pid:null};
     if (typeof process.getuid === 'function' && stat.uid !== process.getuid()) return {safe:false,reason:'pidfile-foreign-owner',pid:null};
-    raw = fs.readFileSync(LEGACY_ENGINE_PID_FILE, 'utf8').trim();
-  } catch (_) { return {safe:false,reason:'pidfile-missing',pid:null}; }
+    raw = fs.readFileSync(fd, 'utf8').trim();
+  } catch (_) {
+    return {safe:false,reason:'pidfile-missing',pid:null};
+  } finally {
+    if (fd !== null) {
+      try { fs.closeSync(fd); } catch (_) {}
+    }
+  }
   if (!/^\d+$/.test(raw)) return {safe:false,reason:'pidfile-invalid',pid:null};
   const pid = Number(raw);
   if (!processAlive(pid)) return {safe:false,reason:'pidfile-stale',pid};

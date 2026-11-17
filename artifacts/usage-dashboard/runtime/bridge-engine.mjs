@@ -10,7 +10,7 @@ import { AsyncLocalStorage } from 'node:async_hooks';
 import { pathToFileURL } from 'node:url';
 
 const execFileAsync = promisify(execFile);
-const VERSION = '1.6.43';
+const VERSION = '1.6.44';
 const PROTOCOL_VERSION = 2;
 const MIN_PLUGIN_VERSION = '2.5.4';
 const RECOMMENDED_PLUGIN_VERSION = '2.7.3';
@@ -351,13 +351,19 @@ async function withCliSlot(label, task, launcherMeta = null) {
 const logThrottle = new Map();
 let bridgeToken = '';
 
+function safeLogMessage(value) {
+  return safeMessage(value)
+    .replace(/[\r\n]+/g, ' ')
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, ' ');
+}
+
 function logRateLimited(level, key, message, intervalMs = 60_000) {
   const now = Date.now();
   const last = logThrottle.get(key) || 0;
   if (now - last < intervalMs) return;
   logThrottle.set(key, now);
   const fn = level === 'error' ? console.error : level === 'warn' ? console.warn : console.log;
-  fn(`[bridge] ${message}`);
+  fn(`[bridge] ${safeLogMessage(message)}`);
   if (logThrottle.size > 128) {
     for (const [entryKey, at] of logThrottle) {
       if (now - at > intervalMs * 4) logThrottle.delete(entryKey);

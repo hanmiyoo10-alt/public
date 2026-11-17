@@ -4,14 +4,14 @@
   "authority": "DERIVED_PUBLICATION_ONLY",
   "sourceRepository": "hanmiyoo10-alt/-",
   "sourceRefs": {
-    "main": "5531951abee0aecfc8f6b886cf6339c292412ac5",
+    "main": "2da9cca5ee0c4ff7e829eb9392f21d72e4a9bf02",
     "release-simcore": "678a4e1ae06bccbe87e1865eaf56d790bd87acc0",
-    "release-usage-dashboard": "68093b8c4b4b8233f5fc455329a31dd6d330dde8"
+    "release-usage-dashboard": "33305c711c62997d55e6c7f1ac96a1756e2e12f3"
   },
   "files": [
     {
       "sourceRef": "main",
-      "sourceCommit": "5531951abee0aecfc8f6b886cf6339c292412ac5",
+      "sourceCommit": "2da9cca5ee0c4ff7e829eb9392f21d72e4a9bf02",
       "sourcePath": "local/termux/00-update-local-stack",
       "publicPath": "artifacts/termux/00-update-local-stack",
       "mode": "100644",
@@ -20,7 +20,7 @@
     },
     {
       "sourceRef": "main",
-      "sourceCommit": "5531951abee0aecfc8f6b886cf6339c292412ac5",
+      "sourceCommit": "2da9cca5ee0c4ff7e829eb9392f21d72e4a9bf02",
       "sourcePath": "local/termux/10-start-local-stack",
       "publicPath": "artifacts/termux/10-start-local-stack",
       "mode": "100755",
@@ -47,43 +47,43 @@
     },
     {
       "sourceRef": "release-usage-dashboard",
-      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourceCommit": "33305c711c62997d55e6c7f1ac96a1756e2e12f3",
       "sourcePath": "plugins/usage-dashboard/latest.js",
       "publicPath": "artifacts/usage-dashboard/latest.js",
       "mode": "100644",
-      "size": 388281,
-      "sha256": "dc4f24caf6608e35ba2694652c207a81f05c2f0de83e7203287c8a2f1717f9fe"
+      "size": 388268,
+      "sha256": "d16afe4f75a9a36fe90f9b3ff2f0b3cdb2bf271dc84ac1e963f94b2e9a54e1fe"
     },
     {
       "sourceRef": "release-usage-dashboard",
-      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourceCommit": "33305c711c62997d55e6c7f1ac96a1756e2e12f3",
       "sourcePath": "plugins/usage-dashboard/runtime/product-manifest.json",
       "publicPath": "artifacts/usage-dashboard/runtime/product-manifest.json",
       "mode": "100644",
       "size": 1811,
-      "sha256": "05bb5bd5321dba9679eebea3de5a17d083358ea04697dab009eff0c944e40411"
+      "sha256": "766f8adf2b4cacd982515da5f8ba63beaaae241d9b3c9bf14492ab994f582865"
     },
     {
       "sourceRef": "release-usage-dashboard",
-      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourceCommit": "33305c711c62997d55e6c7f1ac96a1756e2e12f3",
       "sourcePath": "plugins/usage-dashboard/runtime/bridge-engine.mjs",
       "publicPath": "artifacts/usage-dashboard/runtime/bridge-engine.mjs",
       "mode": "100644",
-      "size": 192590,
-      "sha256": "85530cd53bfeb7f5b410b3cb33e27528cf55be6279211487eec2bdcc8eec3179"
+      "size": 192770,
+      "sha256": "eab00b19584b4028ece9c64c98b37561b897a2ff353bfbc3f4e6815442c30b36"
     },
     {
       "sourceRef": "release-usage-dashboard",
-      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourceCommit": "33305c711c62997d55e6c7f1ac96a1756e2e12f3",
       "sourcePath": "plugins/usage-dashboard/runtime/bridge-manager.cjs",
       "publicPath": "artifacts/usage-dashboard/runtime/bridge-manager.cjs",
       "mode": "100644",
-      "size": 43137,
-      "sha256": "f90efb03562e126168e9d8db4d490beb3b60f64f0ee3811665f6e394062f0d6b"
+      "size": 43074,
+      "sha256": "6dab232b60205ed4da87bc8b15d53e9a675f93e67f01212be85bd80f00c8a2a0"
     },
     {
       "sourceRef": "release-usage-dashboard",
-      "sourceCommit": "68093b8c4b4b8233f5fc455329a31dd6d330dde8",
+      "sourceCommit": "33305c711c62997d55e6c7f1ac96a1756e2e12f3",
       "sourcePath": "plugins/usage-dashboard/runtime/bootstrap-bridge-manager.sh",
       "publicPath": "artifacts/usage-dashboard/runtime/bootstrap-bridge-manager.sh",
       "mode": "100755",
