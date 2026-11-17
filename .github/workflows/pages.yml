@@ -36,7 +36,7 @@ jobs:
           cp site/index.html site-build/index.html
           cp artifacts/provenance.json site-build/provenance.json
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v4
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site-build
       - name: Deploy Pages
