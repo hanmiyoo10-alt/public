@@ -4,14 +4,14 @@
   "authority": "DERIVED_PUBLICATION_ONLY",
   "sourceRepository": "hanmiyoo10-alt/-",
   "sourceRefs": {
-    "main": "17b337676b439893e37cafd5051e45ed3a162b36",
+    "main": "7a4dd51050cc6849d278b37d1d4291b52f71dc9c",
     "release-simcore": "678a4e1ae06bccbe87e1865eaf56d790bd87acc0",
     "release-usage-dashboard": "33305c711c62997d55e6c7f1ac96a1756e2e12f3"
   },
   "files": [
     {
       "sourceRef": "main",
-      "sourceCommit": "17b337676b439893e37cafd5051e45ed3a162b36",
+      "sourceCommit": "7a4dd51050cc6849d278b37d1d4291b52f71dc9c",
       "sourcePath": "local/termux/00-update-local-stack",
       "publicPath": "artifacts/termux/00-update-local-stack",
       "mode": "100644",
@@ -20,7 +20,7 @@
     },
     {
       "sourceRef": "main",
-      "sourceCommit": "17b337676b439893e37cafd5051e45ed3a162b36",
+      "sourceCommit": "7a4dd51050cc6849d278b37d1d4291b52f71dc9c",
       "sourcePath": "local/termux/10-start-local-stack",
       "publicPath": "artifacts/termux/10-start-local-stack",
       "mode": "100755",
